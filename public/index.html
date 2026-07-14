@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biscuit needs her mochi 🍡 </title>
+
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/public/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="256x256" href="/public/assets/favicon-256x256.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/assets/apple-touch-icon.png">
+</head>
+
+<body data-theme="dark">
+    <style>
+        :root {
+            --bg: #000000;
+            --text: blanchedalmond;
+            --accent: burlywood;
+            --border: #333;
+            --input-bg: #111;
+            --error: #ff6b6b;
+            --footer-bg: #1a1410;
+            --footer-text: #f5e8d2;
+            --footer-border: #6c5038;
+            --footer-accent: #d8c05f;
+        }
+
+        [data-theme="light"] {
+            --bg: #faf5ef;
+            --text: #5c4033;
+            --accent: #b8845a;
+            --border: #d9cfc4;
+            --input-bg: #f0e8dd;
+            --error: #c0392b;
+            --footer-bg: #f6ebde;
+            --footer-text: #5c4033;
+            --footer-border: #d2b28b;
+            --footer-accent: #b8845a;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            font-family: sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            border-radius: 50%;
+            width: 2.5rem;
+            height: 2.5rem;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .svg-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        svg {
+            display: block;
+            width: 100%;
+            max-height: 100%;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            width: 100%;
+            padding: 1rem 0;
+        }
+
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1.2rem;
+            letter-spacing: 0.05em;
+            padding: 0.4rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        nav a:hover {
+            background-color: var(--text);
+            color: var(--bg);
+        }
+
+        nav a.active {
+            background-color: var(--accent);
+            color: var(--bg);
+        }
+
+        #page-content {
+            max-width: 800px;
+            width: 100%;
+            padding: 2rem;
+            border: none;
+            outline: none;
+        }
+
+        #page-content h2 {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        #page-content .home-page {
+            background: var(--bg);
+            border: none;
+            outline: none;
+            box-shadow: none;
+            padding-bottom: 2rem;
+        }
+
+        #page-content .home-page h3 {
+            font-size: 1.25rem;
+            color: var(--text);
+            margin: 1.5rem 0 0.5rem;
+            font-weight: 600;
+        }
+
+        #page-content .home-page p {
+            line-height: 1.6;
+            font-size: 1.1rem;
+            margin: 0 0 1rem;
+        }
+
+        #page-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #page-content ul li {
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 1.1rem;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-enter {
+            animation: slideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .page-enter-subtle {
+            animation: slideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            25% {
+                transform: translate(-1px, 1px);
+            }
+
+            50% {
+                transform: translate(1px, -1px);
+            }
+
+            75% {
+                transform: translate(-1px, -1px);
+            }
+        }
+
+        .shake-letter {
+            display: inline-block;
+            animation: shake 2s ease-in-out infinite;
+        }
+
+        @keyframes formReveal {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes formHide {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+        }
+
+        .form-reveal {
+            animation: formReveal 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .form-hide {
+            animation: formHide 0.25s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .form-input {
+            padding: 0.75rem;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text);
+            font-size: 1rem;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 1px;
+        }
+
+        .form-btn {
+            padding: 0.75rem;
+            background: var(--accent);
+            border: none;
+            border-radius: 4px;
+            color: var(--bg);
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .color-footer {
+            margin-top: auto;
+            padding: 1.5rem 1rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .color-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background-color: var(--footer-bg);
+            padding: 0.65rem 1rem;
+            border-radius: 999px;
+            border: 1px solid var(--footer-border);
+            color: var(--footer-text);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+            z-index: 5;
+        }
+
+        .color-box {
+            width: 1rem;
+            height: 1rem;
+            background-color: #d8c05f;
+            border-radius: 999px;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+        }
+
+        .color-text {
+            font-size: 0.95rem;
+            color: var(--footer-text);
+            font-weight: 600;
+            letter-spacing: 0.01em;
+        }
+
+        .corner-char {
+            position: fixed;
+            bottom: 0;
+            right: 1rem;
+            height: 240px;
+            width: auto;
+            object-fit: contain;
+            pointer-events: auto;
+            user-select: none;
+            z-index: 10;
+            filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.22));
+            opacity: 0.96;
+            cursor: help;
+        }
+
+        .corner-char-hover {
+            position: fixed;
+            right: 11.4rem;
+            bottom: 7.2rem;
+            z-index: 12;
+            font-size: 4rem;
+            font-weight: 800;
+            color: #ff4d4f;
+            opacity: 0;
+            transform: translateY(8px) scale(0.6);
+            pointer-events: none;
+            user-select: none;
+            text-shadow: 0 8px 20px rgba(255, 77, 79, 0.25);
+            transition: opacity 220ms cubic-bezier(0.22, 1, 0.36, 1), transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .corner-char-hover.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .corner-char-hover.is-leaving {
+            opacity: 0;
+            transform: translateY(-16px) scale(0.85);
+            transition: opacity 360ms cubic-bezier(0.22, 1, 0.36, 1), transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+    </style>
+    <button id="theme-toggle" aria-label="Toggle theme"></button>
+    <div class="svg-container">
+        <svg viewBox="0 0 2100 600" xmlns="http://www.w3.org/2000/svg">
+            <style>
+                @keyframes breathe {
+
+                    0%,
+                    100% {
+                        transform: translateY(0);
+                    }
+
+                    50% {
+                        transform: translateY(-3px);
+                    }
+                }
+
+                .small {
+                    font: italic 78px sans-serif;
+                    fill: var(--text);
+                    animation: breathe 4s ease-in-out 1s infinite;
+                }
+
+                .heavy {
+                    font: bold 180px sans-serif;
+                    fill: var(--text);
+                    animation: breathe 4s ease-in-out 1.15s infinite;
+                }
+
+                .Rrrrr {
+                    font: italic 240px serif;
+                    fill: var(--accent);
+                    animation: breathe 4s ease-in-out 1.3s infinite;
+                }
+            </style>
+            <text x="120" y="210" class="small">my</text>
+            <text x="240" y="210" class="heavy">Biscuit</text>
+            <text x="330" y="330" class="small">is</text>
+            <text x="390" y="330" class="Rrrrr">freshly baked!</text>
+            <script>
+                document.querySelectorAll('text').forEach(text => {
+                    const content = text.textContent;
+                    text.textContent = '';
+                    [...content].forEach((char) => {
+                        const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+                        tspan.textContent = char;
+                        tspan.style.opacity = '0';
+                        tspan.style.transformBox = 'fill-box';
+                        tspan.style.transformOrigin = 'center';
+                        tspan.style.transform = 'scale(0)';
+                        text.appendChild(tspan);
+
+                        const delay = Math.random() * 600;
+                        const duration = 600;
+                        const start = performance.now() + delay;
+
+                        function animate(now) {
+                            const elapsed = now - start;
+                            if (elapsed < 0) {
+                                requestAnimationFrame(animate);
+                                return;
+                            }
+                            const t = Math.min(elapsed / duration, 1);
+                            const ease = t < 0.5
+                                ? 2 * t * t
+                                : 1 - Math.pow(-2 * t + 2, 2) / 2;
+                            tspan.style.transform = `scale(${ease})`;
+                            tspan.style.opacity = `${ease}`;
+                            if (t < 1) requestAnimationFrame(animate);
+                        }
+                        requestAnimationFrame(animate);
+                    });
+                });
+            </script>
+        </svg>
+    </div>
+    <nav>
+        <a href="#/home" data-route="/home">home</a>
+        <a href="#/papers" data-route="/papers">papers</a>
+        <a href="#/projects" data-route="/projects">projects</a>
+        <a href="#/contact" data-route="/contact">contact</a>
+    </nav>
+    <div id="page-content"></div>
+    <script>
+        const pages = {
+            '/home': `
+                <h2>hi, i'm Biscuit!</h2>
+                <p>i write web code, safe Rust macros, unsafe C logic, and have a profound talent for breaking everything else.</p>
+                <p>Biscuit likes her reverse engineering; your anti-cheat means nothing to her—me, on the other hand, yeah.</p>
+                <hr>
+                <p>this is a personal website where i post my papers, projects, and other things. it's also a playground for me to experiment with web design and development.</p>
+            `,
+            '/papers': `
+                <h2>papers written by me and/or papers i've enjoyed reading!</h2>
+                <p>i promise this will be populated soon. give me a few weeks—or let's say, a year!</p>
+            `,
+            '/projects': `
+                <h2>projects</h2>
+                <p>i sure do hope to be consistent with my projects—assuming i don't get distracted by rewriting this exact website four more times.</p>
+                <ul>
+                    <li><a href="https://github.com/vfbiscuit/landing" target="_blank" style="color: var(--accent); text-decoration: underline;">this website</a></li>
+                </ul>
+            `,
+            '/contact': `
+                <h2>shoot me an email ⤵</h2>
+                <p><a href="mailto:admin@biscuit.rip" id="email-link" style="color: var(--accent); text-decoration: underline; cursor: pointer;">admin@biscuit.rip</a></p>
+                <div id="contact-form" style="display: none; margin-top: 1.5rem;">
+                    <form id="contact-form-inner" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <input type="text" name="name" placeholder="name" required class="form-input">
+                        <input type="email" name="email" placeholder="email" required class="form-input">
+                        <input type="text" name="subject" placeholder="subject" class="form-input">
+                        <textarea name="content" placeholder="content" rows="5" required class="form-input" style="resize: vertical;"></textarea>
+                        <button type="submit" class="form-btn">send</button>
+                    </form>
+                    <p id="form-status" style="margin-top: 1rem; display: none;"></p>
+                </div>
+            `
+        };
+
+        let firstLoad = true;
+
+        function navigate() {
+            const hash = location.hash.slice(1) || '/home';
+            const content = document.getElementById('page-content');
+            content.innerHTML = pages[hash] || pages['/home'];
+
+            content.classList.remove('page-enter', 'page-enter-subtle');
+            void content.offsetWidth;
+            content.classList.add(firstLoad ? 'page-enter' : 'page-enter-subtle');
+            firstLoad = false;
+
+            document.querySelectorAll('.shake-container').forEach(el => {
+                const text = el.textContent;
+                el.textContent = '';
+                [...text].forEach((char, i) => {
+                    const span = document.createElement('span');
+                    span.className = 'shake-letter';
+                    span.textContent = char;
+                    span.style.animationDelay = `${i * 0.1}s`;
+                    el.appendChild(span);
+                });
+            });
+
+            const emailLink = document.getElementById('email-link');
+            const contactForm = document.getElementById('contact-form');
+            if (emailLink && contactForm) {
+                emailLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const isVisible = contactForm.style.display === 'block';
+                    if (isVisible) {
+                        contactForm.classList.remove('form-reveal');
+                        contactForm.classList.add('form-hide');
+                        setTimeout(() => {
+                            contactForm.style.display = 'none';
+                            contactForm.classList.remove('form-hide');
+                        }, 250);
+                    } else {
+                        contactForm.style.display = 'block';
+                        contactForm.classList.add('form-reveal');
+                    }
+                });
+
+                const form = document.getElementById('contact-form-inner');
+                const status = document.getElementById('form-status');
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const formData = new FormData(form);
+                    const data = Object.fromEntries(formData);
+
+                    try {
+                        const res = await fetch('/api/contact', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(data),
+                        });
+
+                        if (res.ok) {
+                            status.textContent = 'message sent!';
+                            status.style.color = 'var(--accent)';
+                            status.style.display = 'block';
+                            form.reset();
+                        } else {
+                            status.textContent = 'something went wrong. try again?';
+                            status.style.color = 'var(--error)';
+                            status.style.display = 'block';
+                        }
+                    } catch {
+                        status.textContent = 'failed to send. try again later.';
+                        status.style.color = 'var(--error)';
+                        status.style.display = 'block';
+                    }
+                });
+            }
+
+            document.querySelectorAll('nav a').forEach(a => {
+                a.classList.toggle('active', a.getAttribute('data-route') === hash);
+            });
+        }
+
+        window.addEventListener('hashchange', navigate);
+        navigate();
+
+        const toggle = document.getElementById('theme-toggle');
+        const saved = localStorage.getItem('theme') || 'dark';
+        document.body.setAttribute('data-theme', saved);
+        toggle.textContent = saved === 'dark' ? '☀' : '☾';
+
+        toggle.addEventListener('click', () => {
+            const current = document.body.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            toggle.textContent = next === 'dark' ? '☀' : '☾';
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const cornerChar = document.querySelector('.corner-char');
+            const hoverQuestion = document.querySelector('.corner-char-hover');
+
+            if (cornerChar && hoverQuestion) {
+                const showQuestion = () => {
+                    hoverQuestion.classList.remove('is-leaving');
+                    hoverQuestion.classList.add('is-visible');
+                };
+
+                const hideQuestion = () => {
+                    hoverQuestion.classList.remove('is-visible');
+                    hoverQuestion.classList.add('is-leaving');
+                };
+
+                cornerChar.addEventListener('mouseenter', showQuestion);
+                cornerChar.addEventListener('mousemove', showQuestion);
+                cornerChar.addEventListener('touchstart', showQuestion, { passive: true });
+                cornerChar.addEventListener('mouseleave', hideQuestion);
+                cornerChar.addEventListener('touchend', hideQuestion);
+            }
+        });
+    </script>
+
+    <footer class="color-footer">
+        <div class="color-badge">
+            <div class="color-box"></div>
+            <span class="color-text">is my favorite color</span>
+        </div>
+    </footer>
+    <div class="corner-char-hover" aria-hidden="true">?</div>
+    <img src="/public/assets/miorine_rembran.png" alt="Character Asset" class="corner-char">
+</body>
+
+</html>

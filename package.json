@@ -1,0 +1,9 @@
+{
+  "name": "vanilla",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

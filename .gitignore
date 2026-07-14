@@ -12,8 +12,9 @@ lerna-debug.log*
 # package-json
 package-json.lock
 
-# bun deploy file
-node_modules.bun
+# Local tool caches and build output
+.wrangler/
+.bun/
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
