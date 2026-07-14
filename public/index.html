@@ -6,11 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biscuit needs her mochi 🍡 </title>
 
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="256x256" href="/assets/favicon-256x256.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/assets/isometric-16.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/assets/isometric-32.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/assets/isometric-96.png">
 </head>
 
 <body>
@@ -447,11 +445,11 @@
                 <p>this is a personal website where i post my papers, projects, and other things. it's also a playground for me to experiment with web design and development.</p>
             `,
             '/papers': `
-                <h2>papers written by me and/or papers i've enjoyed reading!</h2>
+                <h2>papers written by me and/or papers i've enjoyed reading.</h2>
                 <p>i promise this will be populated soon. give me a few weeks—or let's say, a year!</p>
             `,
             '/projects': `
-                <h2>projects</h2>
+                <h2>current active development</h2>
                 <p>i sure do hope to be consistent with my projects—assuming i don't get distracted by rewriting this exact website four more times.</p>
                 <ul>
                     <li><a href="https://github.com/vfbiscuit/landing" target="_blank" style="color: var(--accent); text-decoration: underline;">this website</a></li>
@@ -461,14 +459,16 @@
                 <h2>shoot me an email ⤵</h2>
                 <p><a href="mailto:admin@biscuit.rip" id="email-link" style="color: var(--accent); text-decoration: underline; cursor: pointer;">admin@biscuit.rip</a></p>
                 <div id="contact-form" style="display: none; margin-top: 1.5rem;">
-                    <form id="contact-form-inner" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <form id="contact-form-inner" style="display: flex; flex-direction: column; gap: 1rem;" action="https://api.web3forms.com/submit" method="POST">
+                        <input type="hidden" name="access_key" value="489f2622-42ce-450e-9c61-40c17bc4f0f2">
+                        <input type="checkbox" name="botcheck" class="form-honeypot" style="display: none;" tabindex="-1" autocomplete="off">
                         <input type="text" name="name" placeholder="name" required class="form-input">
                         <input type="email" name="email" placeholder="email" required class="form-input">
                         <input type="text" name="subject" placeholder="subject" class="form-input">
                         <textarea name="content" placeholder="content" rows="5" required class="form-input" style="resize: vertical;"></textarea>
                         <button type="submit" class="form-btn">send</button>
-                    </form>
-                    <p id="form-status" style="margin-top: 1rem; display: none;"></p>
+                     </form>
+                     <p id="form-status" style="margin-top: 1rem; display: none;"></p>
                 </div>
             `
         };
@@ -524,13 +524,18 @@
                     const data = Object.fromEntries(formData);
 
                     try {
-                        const res = await fetch('/api/contact', {
+                        const res = await fetch('https://api.web3forms.com/submit', {
                             method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
                             body: JSON.stringify(data),
                         });
 
-                        if (res.ok) {
+                        const result = await res.json();
+
+                        if (res.ok && result.success) {
                             status.textContent = 'message sent!';
                             status.style.color = 'var(--accent)';
                             status.style.display = 'block';
