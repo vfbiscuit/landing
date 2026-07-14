@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biscuit needs her mochi 🍡 </title>
 
-    <link rel="icon" type="image/png" sizes="16x16" href="/public/assets/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/public/assets/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="48x48" href="/public/assets/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="256x256" href="/public/assets/favicon-256x256.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/public/assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="256x256" href="/assets/favicon-256x256.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
 </head>
 
-<body data-theme="dark">
+<body>
     <style>
         :root {
             --bg: #000000;
@@ -49,7 +49,7 @@
         body {
             margin: 0;
             width: 100%;
-            height: 100%;
+            min-height: 100vh;
             font-family: sans-serif;
             background-color: var(--bg);
             color: var(--text);
@@ -255,6 +255,8 @@
             border-radius: 4px;
             color: var(--text);
             font-size: 1rem;
+            font-family: inherit;
+            line-height: 1.4;
             transition: background-color 0.3s, border-color 0.3s, color 0.3s;
         }
 
@@ -556,13 +558,13 @@
 
         const toggle = document.getElementById('theme-toggle');
         const saved = localStorage.getItem('theme') || 'dark';
-        document.body.setAttribute('data-theme', saved);
+        document.documentElement.setAttribute('data-theme', saved);
         toggle.textContent = saved === 'dark' ? '☀' : '☾';
 
         toggle.addEventListener('click', () => {
-            const current = document.body.getAttribute('data-theme');
+            const current = document.documentElement.getAttribute('data-theme');
             const next = current === 'dark' ? 'light' : 'dark';
-            document.body.setAttribute('data-theme', next);
+            document.documentElement.setAttribute('data-theme', next);
             localStorage.setItem('theme', next);
             toggle.textContent = next === 'dark' ? '☀' : '☾';
         });
@@ -598,7 +600,7 @@
         </div>
     </footer>
     <div class="corner-char-hover" aria-hidden="true">?</div>
-    <img src="/public/assets/miorine_rembran.png" alt="Character Asset" class="corner-char">
+    <img src="/assets/miorine_rembran.png" alt="Character Asset" class="corner-char">
 </body>
 
 </html>
