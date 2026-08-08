@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>lemon, or something?</title>
-    <link rel="icon" type="image/png" href="lemon.png"/>
+    <link rel="icon" type="image/png" href=""/>
     <style>
         @font-face {
             font-family: 'SF Pro';
